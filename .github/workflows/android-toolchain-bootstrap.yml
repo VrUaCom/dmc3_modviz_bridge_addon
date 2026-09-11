@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/android-toolchain-bootstrap.yml'
+  pull_request:
   workflow_dispatch:
 
 permissions:
