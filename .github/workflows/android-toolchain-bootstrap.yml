@@ -58,3 +58,30 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 1
+
+  rengine_reader_source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout pinned DMC Rengine
+        uses: actions/checkout@v4
+        with:
+          repository: VrUaCom/dmc-rengine-cpp
+          ref: 87394ccc081ac67f68cf355904829aa1df069931
+          path: rengine
+          fetch-depth: 1
+
+      - name: Pack exact ReaderCore source checkout
+        run: |
+          set -euxo pipefail
+          rm -rf rengine/.git
+          tar -czf "$RUNNER_TEMP/dmc-rengine-reader-87394ccc.tar.gz" rengine
+          ls -lh "$RUNNER_TEMP/dmc-rengine-reader-87394ccc.tar.gz"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dmc-rengine-reader-87394ccc
+          path: ${{ runner.temp }}/dmc-rengine-reader-87394ccc.tar.gz
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
